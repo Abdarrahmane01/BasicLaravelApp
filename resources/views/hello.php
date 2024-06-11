@@ -10,7 +10,7 @@
     <div class="container">
         <div class="content">
             <div class="title m-b-md">
-                Hello World This is a laravel web app!
+                Hello World This is a laravel web app after the modification test!
             </div>
         </div>
     </div>
