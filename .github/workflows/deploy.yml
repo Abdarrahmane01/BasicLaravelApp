@@ -1,5 +1,3 @@
-name: Laravel App Deployment
-
 on:
   push:
     branches:
@@ -27,4 +25,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Serve the application
-        run: php artisan serve --host=0.0.0.0 --port=8000
+        run: echo '1234Azerty' | sudo -S php artisan serve --host=0.0.0.0 --port=8000
