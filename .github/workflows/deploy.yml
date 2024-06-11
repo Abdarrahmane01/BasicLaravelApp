@@ -26,8 +26,5 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Run migrations and seed (if needed)
-        run: php artisan migrate --seed
-
       - name: Serve the application
         run: php artisan serve --host=0.0.0.0 --port=8000
