@@ -10,7 +10,7 @@
     <div class="container">
         <div class="content">
             <div class="title m-b-md">
-                Hello Houria!
+                Hello World This is a laravel web app!
             </div>
         </div>
     </div>
