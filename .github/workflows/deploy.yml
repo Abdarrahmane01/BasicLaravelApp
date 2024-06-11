@@ -13,7 +13,7 @@ jobs:
       app:
         image: php:8.1-apache
         ports:
-          - 8888:8888
+          - 8080:8080
         options: --name app-container
 
     steps:
@@ -37,4 +37,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Serve the application
-        run: php artisan serve --host=0.0.0.0 --port=8888
+        run: php artisan serve --host=0.0.0.0 --port=8080
