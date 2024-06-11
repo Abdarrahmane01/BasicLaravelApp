@@ -1,3 +1,5 @@
+name: Laravel App Deployment
+
 on:
   push:
     branches:
@@ -11,12 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1' # Specify the PHP version you are using
-          extensions: mbstring, pdo, pdo_mysql, openssl, json
-          coverage: none
+      #- name: Set up PHP #This step is for the first deployment because it requires sudo password
+        #uses: shivammathur/setup-php@v2
+        #with:
+          #php-version: '8.1' # Specify the PHP version you are using
+          #extensions: mbstring, pdo, pdo_mysql, openssl, json
+          #coverage: none
 
       - name: Install Composer dependencies
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
@@ -25,4 +27,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Serve the application
-        run: echo '1234Azerty' | sudo -S php artisan serve --host=0.0.0.0 --port=8000
+        run: php artisan serve --host=0.0.0.0 --port=8000
