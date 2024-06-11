@@ -3,11 +3,11 @@ name: Deploy Laravel Application
 on:
   push:
     branches:
-      - main
+      - main  # Change this to your default branch if it's different
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -16,7 +16,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.1' # Specify the PHP version you are using
           extensions: mbstring, pdo, pdo_mysql, openssl, json
           coverage: none
 
@@ -26,18 +26,13 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Copy .env file
-        run: cp .env.example .env
-
-      - name: Configure Apache
+      - name: Serve the application
         run: |
-          sudo apt-get update
-          sudo apt-get install apache2 -y
-          sudo a2enmod rewrite
-          sudo service apache2 restart
+          tmux new -d -s laravel
+          tmux send-keys -t laravel "php artisan serve --host=0.0.0.0 --port=8000" ENTER
 
-      - name: Point Apache to the Laravel public directory
-        run: sudo cp -r public/* /var/www/html/
+      - name: Wait for server to start
+        run: sleep 5
 
-      - name: Set permissions
-        run: sudo chown -R www-data:www-data /var/www/html/
+      - name: Ensure the application is running
+        run: curl --fail http://127.0.0.1:8000 || exit 1
