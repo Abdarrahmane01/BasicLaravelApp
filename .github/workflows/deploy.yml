@@ -7,14 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
-    services:
-      app:
-        image: php:8.1-apache
-        ports:
-          - 8080:8080
-        options: --name app-container
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -23,18 +16,18 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1' # Specify PHP 8.1 to meet your application's requirements
+          php-version: '8.1' # Specify the PHP version you are using
           extensions: mbstring, pdo, pdo_mysql, openssl, json
           coverage: none
 
       - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Copy .env.example to .env
-        run: cp .env.example .env
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
       - name: Generate application key
         run: php artisan key:generate
 
       - name: Serve the application
-        run: php artisan serve --host=0.0.0.0 --port=8080
+        run: php artisan serve --host=0.0.0.0 --port=8000 &
+
+      - name: Ensure the application is running
+        run: curl --fail http://127.0.0.1:8000 || exit 1
